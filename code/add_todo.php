@@ -5,24 +5,10 @@
 -->
 
 <?php
+// DB接続
+require_once 'db_connection.php';
 
-// DB接続する関数→どのDB（テーブル）かをここで限定。オブジェクトを返してくれる。（別ファイルにしたほうが良いのか？）
-function connectToDatabase($dbname) {
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // 接続失敗したら、（connect_errorがnullではないなら）
-    if ($conn->connect_error) {
-        // 処理終了
-        die("接続エラー: " . $conn->connect_error);
-    }
-
-    return $conn;
-}
-
-// 限定されたDB(テーブル)に行を追加する関数
+// テーブルに行を追加する関数
 function addTodoToDatabase($dbname, $title, $content) {
     // 上の関数を動かしてDB接続し、戻り値(オブジェクト？)を取得
     $conn = connectToDatabase($dbname);
@@ -37,9 +23,6 @@ function addTodoToDatabase($dbname, $title, $content) {
     // DBとの接続を閉じる
     $conn->close();
 }
-
-// DBの名前（関数の外に書いておくことで、これが変わっても関数の中身を変更しなくて済むっぽい）
-$dbname = "todo_list";
 
 // フォームを受け取る
 $title = $_POST['title'];
