@@ -13,77 +13,85 @@
 </head>
 <body>
     <h1>Todo List</h1>
-    <table border="1">
-        <!--テーブル作成(下のwhile文のところで、DBから中身を取得して入れていく)-->
-        <tr>
-            <th>Title</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Actions</th>
-        </tr>
 
-        <?php
-        // DB接続
-        require_once 'db_connection.php';
-        $conn = connectToDatabase($dbname);
+<?php
 
-        // SQL準備
-        $sql = "SELECT id, title, content, created_at, updated_at FROM todos ORDER BY created_at DESC";
-        // 準備したSQLを$stmtに格納
-        $stmt = $conn->prepare($sql);
-        // SQL実行
-        $stmt->execute();
+// 一覧表示の関数
+function showDatabaseItems(){
+    
+    // DB接続
+    require_once 'db_connection.php';
+    $conn = connectToDatabase($dbname);
 
-        // 結果を取得する
-        $result = $stmt->get_result();
+    // SQL準備
+    $sql = "SELECT id, title, content, created_at, updated_at FROM todos ORDER BY created_at DESC";
+    // 準備したSQLを$stmtに格納
+    $stmt = $conn->prepare($sql);
+    // SQL実行
+    $stmt->execute();
 
-        //上のhtmlで作った表に結果を一列づつ入れていく($rowに値が入っている間)
-        while ($row = $result->fetch_array()) {
-            echo "<tr>";
-            echo "<td>" . $row['title'] . "</td>";
-            echo "<td>" . $row['created_at'] . "</td>";
-            echo "<td>" . $row['updated_at'] . "</td>";
-            echo "<td>"; // Actionsの列に編集ボタンと削除ボタン
-            // 編集ボタンの作成
-            echo "<form action='edit_todo.php' method='post'>";
-            echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";// その行のidを送信
-            echo "<input type='submit' value='編集'>";
-            echo "</form>";
-            // 削除ボタンの作成
-            echo "<form action='delete_todo.php' method='post' onsubmit=\"return confirm('本当に削除してもよろしいですか？');\">"; 
-            echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
-            echo "<input type='submit' value='削除'>";
-            echo "</form>";
-            echo "</td>";
-            echo "</tr>";
-        }
+    // 結果を取得する
+    $result = $stmt->get_result();
 
-        // データベース接続を閉じる
-        $conn->close();
+    // テーブルの作成
+    // フィールド名
+    echo "<table border='1'>";
+    echo "<tr>"; // trは横一列のイメージ
+    echo "<th>Title</th>"; // thは見出しセル
+    echo "<th>Created At</th>";
+    echo "<th>Updated At</th>";
+    echo "<th>Actions</th>";
+    echo "</tr>";
 
-        // リダイレクトの処理たち（まとめるか否か）
-        // 削除後の遷移(postだと警告出るのでgetメソッドで)
-        if(isset($_GET['message']) && $_GET['message'] === 'deleted'){
-            echo "<script>alert('削除されました。');</script>";
-        }
+    // DBから取得した結果を表に一列づつ入れていく($rowに値が入っている間)
+    while ($row = $result->fetch_array()) {
+        echo "<tr>";
+        echo "<td>" . $row['title'] . "</td>"; // tdはデータセル
+        echo "<td>" . $row['created_at'] . "</td>";
+        echo "<td>" . $row['updated_at'] . "</td>";
+        echo "<td>"; // Actionsの列に編集ボタンと削除ボタン
+        // 編集ボタンの作成
+        echo "<form action='edit_todo.php' method='post'>";
+        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";// その行のidを送信
+        echo "<input type='submit' value='編集'>";
+        echo "</form>";
+        // 削除ボタンの作成
+        echo "<form action='delete_todo.php' method='post' onsubmit=\"return confirm('本当に削除してもよろしいですか？');\">"; 
+        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
+        echo "<input type='submit' value='削除'>";
+        echo "</form>";
+        echo "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
 
-        // 更新後の遷移
-        if(isset($_GET['message']) && $_GET['message'] === 'update'){
-            echo "<script>alert('更新されました。');</script>";
-        }
+    // データベース接続を閉じる
+    $conn->close();
+}
 
-        // 追加後の遷移
-        if(isset($_GET['message']) && $_GET['message'] === 'add'){
-            echo "<script>alert('追加されました。');</script>";
-        }
+// 関数を呼ぶ
+showDatabaseItems();
+        
+// リダイレクトの処理たち（まとめるか否か）
+// 削除後の遷移(postだと警告出るのでgetメソッドで)
+if(isset($_GET['message']) && $_GET['message'] === 'deleted'){
+    echo "<script>alert('削除されました。');</script>";
+}
 
-        ?>
+// 更新後の遷移
+if(isset($_GET['message']) && $_GET['message'] === 'update'){
+    echo "<script>alert('更新されました。');</script>";
+}
 
+// 追加後の遷移
+if(isset($_GET['message']) && $_GET['message'] === 'add'){
+    echo "<script>alert('追加されました。');</script>";
+}
 
+?>
 
-    </table>
-        <!-- 新規追加のボタン -->
-        <a href="add_todo.html" class="button">新規追加</a>
+<!-- 新規追加のボタン -->
+<a href="add_todo.html" class="button">新規追加</a>
 </body>
 
 </html>
