@@ -17,3 +17,10 @@
 </body>
 </html>
 
+<?php
+
+if(isset($_GET['message']) && $_GET['message'] === 'notempty'){
+    echo "<script>alert('空欄があります。');</script>";
+}
+
+?>
