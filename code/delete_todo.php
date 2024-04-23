@@ -4,7 +4,7 @@
 function deleteTodoFromDatabase($id){
     // DBに接続
     require_once 'db_connection.php';
-    $conn = connectToDatabase($dbname);
+    $conn = connectToDatabase();
 
     // sqlの準備（これもstmtで）
     $sql = "DELETE FROM todos WHERE id = ?";

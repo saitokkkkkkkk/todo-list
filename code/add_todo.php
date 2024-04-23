@@ -11,7 +11,7 @@ function addTodoToDatabase($dbname, $title, $content) {
     
     // DB接続
     require_once 'db_connection.php';
-    $conn = connectToDatabase($dbname);
+    $conn = connectToDatabase();
 
     // titleとcontentをエスケープ(sqlインジェクション対策)
     $title = mysqli_real_escape_string($conn, $_POST['title']);

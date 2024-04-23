@@ -24,7 +24,7 @@ if(isset($_POST['id'])) {
 function getTodoById($id){
     // DBに接続
     require_once 'db_connection.php';
-    $conn = connectToDatabase($dbname);
+    $conn = connectToDatabase();
 
     // SQLクエリを書く（$idではなく?にして安全に?）
     $sql = "SELECT title, content FROM todos WHERE id = ?";

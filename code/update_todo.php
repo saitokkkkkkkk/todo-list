@@ -6,7 +6,7 @@ function updateTodoInDatabase($id, $edited_title, $edited_content){
     
     // DBに接続
     require_once 'db_connection.php';
-    $conn = connectToDatabase($dbname);
+    $conn = connectToDatabase();
 
     // titleとcontentは外部からなのでエスケープ
     $id = $id;

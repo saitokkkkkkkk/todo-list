@@ -1,14 +1,15 @@
 <?php
 
 // DB接続する関数
-function connectToDatabase($dbname) {
+function connectToDatabase() {
     // configファイルを要求
-    //require_once "/../config/config.php";
+    require_once "../config/config.php";
 
     // (configファイルからもらう)
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
+    $servername = DB_SERVER;
+    $username = DB_USERNAME;
+    $password = DB_PASSWORD;
+    $dbname = DB_NAME;
     
     // DB接続
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -22,4 +23,3 @@ function connectToDatabase($dbname) {
 }
 
 // DB名もここに書いておく
-$dbname = "todo_list";

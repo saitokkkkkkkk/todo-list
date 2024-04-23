@@ -21,7 +21,7 @@ function showDatabaseItems(){
     
     // DB接続
     require_once 'db_connection.php';
-    $conn = connectToDatabase($dbname);
+    $conn = connectToDatabase();
 
     // SQL準備
     $sql = "SELECT id, title, content, created_at, updated_at FROM todos ORDER BY created_at DESC";
