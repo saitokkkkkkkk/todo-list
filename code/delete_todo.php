@@ -49,5 +49,3 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     error_log("POSTリクエスト以外でidが送信されました。");
     //header("Location: add_todo.php");
 }
-
-

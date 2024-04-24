@@ -1,4 +1,3 @@
-
 <!-- 
 ③ 編集機能
 ・編集ボタンを押して編集画面に移動できる。(action属性で付与完了)
@@ -74,6 +73,3 @@ function getTodoById($id){
     </form>
 </body>
 </html>
-
-
-

@@ -9,7 +9,7 @@
 require_once '../config/redirect_config.php';
 
 // データを追加する関数
-function addTodoToDatabase($dbname, $title, $content) {
+function addTodoToDatabase($title, $content) {
     
     // DB接続
     require_once 'db_connection.php';

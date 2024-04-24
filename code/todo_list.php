@@ -77,7 +77,7 @@ function showDatabaseItems(){
 // 関数を呼ぶ
 showDatabaseItems();
 
-// リダイレクトの処理をswitchでまとめとく
+// リダイレクトの処理
 if(isset($_GET['message'])){
     switch($_GET['message']){
         // パラメータごとに表示を変える
