@@ -11,7 +11,7 @@
 // 編集ボタンを押した時の処理(idを元にtitleとcontentを持ってくる)
 // POSTリクエストでIDが送信されていれば
 if(isset($_POST['id'])) {
-    // そのidを引数にしてgetTodoByIdを呼ぶ(戻り値は変数に格納！)
+    // そのidを引数にしてgetTodoByIdを呼ぶ(戻り値は変数に格納)
     $todo = getTodoById($_POST['id']);
 }else{
     // もしIDが送信されていない場合、エラーメッセージを表示
@@ -46,7 +46,6 @@ function getTodoById($id){
 
     // 取得したtitle,contentを返却！
     return $todo;
-
 }
 
 ?>
@@ -57,18 +56,21 @@ function getTodoById($id){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Todo</title>
+    <link rel="stylesheet" href="todo_list.css">
 </head>
 <body>
     <h1>Edit Todo</h1>
     <form action="update_todo.php" method="post">
-        <label for="title">Title:</label><br>
+      <div class='form-container'>
+        <label for="title">Title</label><br>
         <!-- titleを表示。htmlspecialchars関数を使用→外部からの(信頼できない)情報を処理。-->
         <input type="text" id="title" name="edited_title" value="<?php echo htmlspecialchars($todo['title']); ?>"><br> 
-        <label for="content">Content:</label><br>
+        <label for="content">Content</label><br>
         <!-- contentを表示 -->
         <textarea id="content" name="edited_content"><?php echo htmlspecialchars($todo['content']); ?></textarea><br>
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($_POST['id']); ?>"> <!-- 前のページから受け取ったidを次のページに送信 -->
         <input type="submit" value="変更">
+      </div>
     </form>
 </body>
 </html>

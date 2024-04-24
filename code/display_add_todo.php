@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Todo</title>
+    <link rel="stylesheet" href="todo_list.css">
 </head>
 <body>
-    <h1>Add Todo</h1>
+    <h1>新規追加</h1>
     <form action="add_todo.php" method="post">
-        <label for="title">Title:</label><br>
+      <div class='form-container'>
+        <label for="title">Title</label><br>
         <input type="text" id="title" name="title"><br>
-        <label for="content">Content:</label><br>
+        <label for="content">Content</label><br>
         <textarea id="content" name="content"></textarea><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="追加">
+      </div>
     </form>
 </body>
 </html>

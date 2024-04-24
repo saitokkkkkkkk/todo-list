@@ -10,10 +10,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Todo</title>
+    <link rel="stylesheet" href="todo_list.css">
 </head>
 <body>
-    <h1>Todo List</h1>
-
+    <h1>ToDo List</h1>
 <?php
 
 // 一覧表示の関数
@@ -50,20 +50,25 @@ function showDatabaseItems(){
         echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
         echo "<td>" . htmlspecialchars($row['updated_at']) . "</td>";
         echo "<td>"; // Actionsの列に編集ボタンと削除ボタン
+        echo "<div class='form-container'>";
         // 編集ボタンの作成
         echo "<form action='edit_todo.php' method='post'>";
         echo "<input type='hidden' name='id' value='" . htmlspecialchars($row['id']) . "'>"; // hiddenにしてその行のidを送信
-        echo "<input type='submit' value='編集'>";
+        echo "<input type='submit' class='action-button' value='編集'>";
         echo "</form>";
         // 削除ボタンの作成
         echo "<form action='delete_todo.php' method='post' onsubmit=\"return confirm('本当に削除してもよろしいですか？');\">"; 
         echo "<input type='hidden' name='id' value='" . htmlspecialchars($row['id']) . "'>";
-        echo "<input type='submit' value='削除'>";
+        echo "<input type='submit' class='action-button' value='削除'>";
         echo "</form>";
+        echo "</div>";
+
         echo "</td>";
         echo "</tr>";
     }
+
     echo "</table>";
+    
 
     // データベース接続を閉じる
     $conn->close();
@@ -71,37 +76,35 @@ function showDatabaseItems(){
 
 // 関数を呼ぶ
 showDatabaseItems();
-        
-//リダイレクトの処理たち(switch？でまとめるか)+header関数にファイル名ベタ書きしてるから直すか？
-// 削除後の遷移(postだと警告出るのでgetメソッドで)
-if(isset($_GET['message']) && $_GET['message'] === 'deleted'){
-    echo "<script>alert('削除されました。');</script>";
-}
 
-// 更新後の遷移
-if(isset($_GET['message']) && $_GET['message'] === 'update'){
-    echo "<script>alert('更新されました。');</script>";
-}
-
-// 更新失敗後の遷移
-if(isset($_GET['message']) && $_GET['message'] === 'update_failed'){
-    echo "<script>alert('更新に失敗しました。');</script>";
-}
-
-// 追加後の遷移
-if(isset($_GET['message']) && $_GET['message'] === 'add'){
-    echo "<script>alert('追加されました。');</script>";
-}
-
-// 追加失敗後の遷移
-if(isset($_GET['message']) && $_GET['message'] === 'add_failed'){
-    echo "<script>alert('追加に失敗しました。');</script>";
+// リダイレクトの処理をswitchでまとめとく
+if(isset($_GET['message'])){
+    switch($_GET['message']){
+        // パラメータごとに表示を変える
+        case 'deleted':
+            echo "<script>alert('削除されました。');</script>";
+            break;
+        case 'update':
+            echo "<script>alert('更新されました。');</script>";
+            break;
+        case 'update_failed':
+            echo "<script>alert('更新に失敗しました。');</script>";
+            break;
+        case 'add':
+            echo "<script>alert('追加しました。');</script>";
+            break;
+        case 'add_failed':
+            echo "<script>alert('追加に失敗しました。');</script>";
+            break;
+    }
 }
 
 ?>
 
 <!-- 新規追加のボタン -->
-<a href="display_add_todo.php" class="button">新規追加</a>
+<div class='button'>
+    <a href="display_add_todo.php">ToDoの新規追加はこちらから</a>
+</div>
 </body>
 
 </html>
