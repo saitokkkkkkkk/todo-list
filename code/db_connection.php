@@ -1,11 +1,11 @@
 <?php
 
 // DB接続する関数
-function connectToDatabase() {
+function connectToDatabase(){
     // configファイルを要求
-    require_once "../config/config.php";
+    require_once "../config/db_config.php";
 
-    // (configファイルからもらう)
+    // 定数もらう
     $servername = DB_SERVER;
     $username = DB_USERNAME;
     $password = DB_PASSWORD;
@@ -22,4 +22,3 @@ function connectToDatabase() {
     return $conn;
 }
 
-// DB名もここに書いておく
