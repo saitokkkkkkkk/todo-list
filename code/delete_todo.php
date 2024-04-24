@@ -1,5 +1,8 @@
 <?php
 
+// リダイレクト先を取得できるようにしとく
+require_once '../config/redirect_config.php';
+
 // 削除の関数
 function deleteTodoFromDatabase($id){
     // DBに接続
@@ -19,7 +22,8 @@ function deleteTodoFromDatabase($id){
         $conn->close();
         $stmt->close();
         // リダイレクト(getメソッドでパラメータaddを渡す)
-        header("Location: todo_list.php?message=deleted");
+        header("Location: " . REDIRECT_DELETE);
+        exit();
     }else{
         echo "エラー: " . $sql . "<br>" . $conn->error;
     }

@@ -1,5 +1,8 @@
 <?php
 
+// リダイレクト先を取得できるようにしとく
+require_once '../config/redirect_config.php';
+
 // 受け取ったidを元にそのレコードを更新していく。
 // データ更新の関数。
 function updateTodoInDatabase($id, $edited_title, $edited_content){
@@ -26,7 +29,8 @@ function updateTodoInDatabase($id, $edited_title, $edited_content){
         $conn->close();
         $stmt->close();
         // リダイレクト
-        header("Location: todo_list.php?message=update");
+        header("Location: " . REDIRECT_UPDATE);
+        exit();
     }else{
         echo "エラー: " . $sql . "<br>" . $conn->error;
     }
@@ -38,7 +42,9 @@ if (isset($_POST['id'], $_POST['edited_title'], $_POST['edited_content']) && $_P
     // 受け取ったデータを引数にして関数を呼び出す
     updateTodoInDatabase($_POST['id'], $_POST['edited_title'], $_POST['edited_content']);
 }else{
-    header("Location: todo_list.php?message=update_failed");
+    // 空文字の場合など
+    header("Location: " . REDIRECT_UPDATE_FAILED);
+    exit();
 }
 
 ?>

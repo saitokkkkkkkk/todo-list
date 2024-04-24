@@ -5,6 +5,8 @@
 -->
 
 <?php
+// リダイレクト先を取得できるようにしとく
+require_once '../config/redirect_config.php';
 
 // データを追加する関数
 function addTodoToDatabase($dbname, $title, $content) {
@@ -13,7 +15,7 @@ function addTodoToDatabase($dbname, $title, $content) {
     require_once 'db_connection.php';
     $conn = connectToDatabase();
 
-    // titleとcontentをエスケープ(sqlインジェクション対策)
+    // titleとcontentをエスケープ
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $content = mysqli_real_escape_string($conn, $_POST['content']);
 
@@ -29,8 +31,9 @@ function addTodoToDatabase($dbname, $title, $content) {
         // DBとの接続とstmtを閉じておく
         $conn->close();
         $stmt->close();
-        // リダイレクト(getメソッドでパラメータaddを渡す)
-        header("Location: todo_list.php?message=add");
+        // リダイレクト
+        header("Location: " . REDIRECT_ADD);
+        exit();
     }else{
         echo "エラー: " . $sql . "<br>" . $conn->error;
     }
@@ -46,7 +49,8 @@ if($_SERVER["REQUEST_METHOD"]=== "POST"){
         addTodoToDatabase($dbname, $_POST['content'], $_POST['content']);
     }else{
         // リダイレクト
-        header("Location: todo_list.php?message=add_failed");
+        header("Location: " . REDIRECT_ADD_FAILED);
+        exit();
     }
 }else{
     // 関数を呼ばずにリダイレクト（原因はログに表示。ちゃんと動く？）
